@@ -1,20 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"recherche-produit-go/routes"
+	"scrapper/route"
+	"scrapper/sigs"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/color"
 )
 
 func main() {
-	fmt.Println("Démarrage du serveur Go...")
 
-	// Setup routes
-	http.HandleFunc("/search", routes.ProductSearchHandler)
 
-	// Start the server
-	port := ":8080"
-	fmt.Println("Serveur démarré sur http://localhost" + port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	println(color.Red(sigs.Signature))
+
+	e := echo.New()
+
+	group := e.Group("/api")
+
+	route.GeneralRoute(group)
+
+	e.Logger.Fatal(e.Start(":8000"))
+	
 }
